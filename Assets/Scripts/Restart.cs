@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Restart : MonoBehaviour {
     public void RestartLevel() {
-        //GameManager.instance.OnRestart();
-        SceneManager.LoadScene("Main");
+        var gameManager = GameObject.Find("GameManager(Clone)").GetComponent<GameManager>();
+        gameManager.RestartLevel();
     }
 }

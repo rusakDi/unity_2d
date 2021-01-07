@@ -167,4 +167,6 @@ MonoBehaviour:
   blockingLayer:
     serializedVersion: 2
     m_Bits: 256
+  speenP: 5
   playerDamage: 200
+  rangeAttack: 1

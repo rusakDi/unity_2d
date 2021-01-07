@@ -8,6 +8,7 @@ TagManager:
   - Water
   - Enemy
   - Soda
+  - InWall
   layers:
   - Default
   - TransparentFX

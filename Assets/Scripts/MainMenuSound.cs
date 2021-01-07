@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class MainMenuSound : MonoBehaviour {
     void Start() {
-        GetComponent <AudioSource>().Play ();
+        GetComponent<AudioSource>().Play();
     }
 }

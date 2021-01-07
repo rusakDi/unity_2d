@@ -4,42 +4,62 @@ using UnityEngine;
 
 public class Enemy : MovingObject {
 	public int playerDamage;
+
+	[SerializeField]
+	private float rangeAttack;
+	
 	private Animator animator;
 	private Transform target;
 	private bool skipMove;
-
+	private const float eps = 0.00001f;
 	protected override void Start() {
         GameManager.instance.AddEnemyToList(this);
 		animator = GetComponent<Animator>();
-		target = GameObject.FindGameObjectWithTag("Player").transform;
+		target = GameObject.Find("Player").transform;
 		base.Start();
 	}
-	
-	protected override void AttemptMove <T> (int xDir, int yDir) {
+
+    private void Update() => StartCoroutine(AttackCorutine(1f));
+
+	IEnumerator AttackCorutine(float deltaTime) {
+		if (Vector2.Distance(target.position, transform.position) <= rangeAttack) {
+			if (target.GetComponent<Player>()) {
+				OnAttack(target.GetComponent<Player>());
+			}
+		}
+		yield return new WaitForSeconds(deltaTime);
+	}
+
+	protected override void AttemptMove<T>(float xDir, float yDir, float deltaTime) {
 		if (skipMove) {
 			skipMove = false;
 			return;
 		}
 
-		base.AttemptMove<T>(xDir, yDir);
+		base.AttemptMove<T>(xDir, yDir, deltaTime);
 		skipMove = true;
 	}
 
-	protected override void OnCantMove <T> (T component) {
+	protected override void OnAttack<T>(T component) {
 		Player hitPlayer = component as Player;
 		animator.SetTrigger("enemyAttack");
 		hitPlayer.LoseFood(playerDamage);
 	}
 
-	public void MoveEnemy() {
-		int xDir = 0;
-		int yDir = 0;
-		if (Mathf.Abs(target.position.x - transform.position.x) < float.Epsilon) {
-			yDir = (target.position.y > transform.position.y) ? 1 : -1;
-		} else {
-			xDir = (target.position.x > transform.position.x) ? 1 : -1;
-		}
-
-		AttemptMove <Player>(xDir, yDir);
+	public void MoveEnemy(float deltaTime) {
+		float xDir = 0;
+		float yDir = 0;
+		var dist = Vector3.Distance(target.position, transform.position);
+		if (dist > eps) {
+			var direction = target.position - transform.position;
+			if (deltaTime * speenP <= dist) {
+				direction /= dist;
+            } else {
+				direction /= deltaTime * speenP;
+            }
+			xDir = direction.x;
+			yDir = direction.y;
+		} 
+		AttemptMove <Player>(xDir, yDir, deltaTime);
 	}
 }

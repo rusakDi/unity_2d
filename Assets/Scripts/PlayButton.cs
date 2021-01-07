@@ -9,11 +9,11 @@ public class PlayButton : MonoBehaviour {
     private Button exitButton;
     
     void Start() {
-        exitButton = GetComponent <Button> ();
+        exitButton = GetComponent <Button>();
         exitButton.onClick.AddListener (Play);
     }
 
-    void Play(){
+    void Play() {
         GetComponent <AudioSource>().Play();
         SceneManager.LoadScene("Main");
     }

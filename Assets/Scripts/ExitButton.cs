@@ -8,12 +8,12 @@ public class ExitButton : MonoBehaviour {
     private Button exitButton;
     
     void Start() {
-        exitButton = GetComponent <Button> ();
-        exitButton.onClick.AddListener (Quit);
+        exitButton = GetComponent<Button>();
+        exitButton.onClick.AddListener(Quit);
     }
 
     void Quit() {
-        GetComponent <AudioSource>().Play ();
+        GetComponent<AudioSource>().Play();
         Application.Quit();
     }
 }

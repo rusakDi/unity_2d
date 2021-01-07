@@ -9,26 +9,27 @@ public class Player : MovingObject {
 	public int pointsPerSoda = 20;
 	public float restartLevelDelay = 1f;
 	public Text foodText;
+	private const int playerFoodPoints = 10000;
 	private Animator animator;
-	private int food;
+	private float food;
 	public AudioSource shootSound;
 	public AudioSource walkSound;
 	public AudioSource hitSound;
 	public AudioSource attackSound;
 	public AudioSource loseSound;
 
-	protected override void Start() {
-		animator = GetComponent<Animator>();
-		food = GameManager.instance.playerFoodPoints;
+    public float Food { get => food; set => food = value; }
 
-		foodText.text = "WaterBalance: " + food;
-
+    protected override void Start() {
+		animator = transform.GetChild(0).GetComponent<Animator>();
+		Food = playerFoodPoints;
+		foodText.text = "WaterBalance: " + Food;
 		base.Start();
 	}
 
 	void Update()
 	{
-		if (!GameManager.instance.playersTurn) {
+		if ((bool)!GameManager.instance?.PlayersTurn) {
 			return;
 		}
 
@@ -43,30 +44,28 @@ public class Player : MovingObject {
 		}
 
 		if (horizontal != 0 || vertical != 0) {
-			AttemptMove<Wall>(horizontal, vertical);
+			AttemptMove<Wall>(horizontal, vertical, Time.deltaTime);
 		}
 	}
 		
 	public void LoseFood (int loss) {
 		animator.SetTrigger("playerHit");
 		hitSound.Play();
-		food -= loss;
-		foodText.text = "-" + loss + " WaterBalance: " + food;
+		Food -= loss;
+		foodText.text = "-" + loss + " WaterBalance: " + Food;
 		CheckIfGameOver();
 	}
 
-	protected override void AttemptMove <T> (int xDir, int yDir) {
-		food--;
-		foodText.text = "WaterBalance: " + food;
+	protected override void AttemptMove <T> (float xDir, float yDir, float deltaTime) {
+		Food -= Time.deltaTime;
+		foodText.text = "WaterBalance: " + Food;
 		walkSound.Play();
-		base.AttemptMove <T>(xDir, yDir);
-
+		base.AttemptMove <T>(xDir, yDir, deltaTime);
 		CheckIfGameOver();
-
-		GameManager.instance.playersTurn = false;
+		GameManager.instance.PlayersTurn = false;
 	}
 
-	protected override void OnCantMove <T> (T component) {
+	protected override void OnAttack <T> (T component) {
 		Wall hitWall = component as Wall;
 		hitWall.DamageWall(wallDamage);
 		attackSound.Play();
@@ -74,31 +73,34 @@ public class Player : MovingObject {
 	}
 
 	private void OnTriggerEnter2D (Collider2D other) {
-		if (other.CompareTag("Exit")) {
-			Invoke("Restart", restartLevelDelay);
-			enabled = false;
-		}
-		else if (other.CompareTag("Soda")) {
-			food += pointsPerSoda;
-			shootSound.Play();
-			foodText.text = "+" + pointsPerSoda + " WaterBalance: " + food;
-			other.gameObject.SetActive(false);
-		}
+		switch (other.tag) {
+			case "Exit": {
+				Invoke("Restart", restartLevelDelay);
+                enabled = false;
+                break;
+			}
+			case "Soda": {
+				Food += pointsPerSoda;
+                shootSound.Play();
+                foodText.text = "+" + pointsPerSoda + " WaterBalance: " + Food;
+                other.gameObject.SetActive(false);
+                break;
+            }
+			case "InWall": {
+				OnAttack(other.transform.GetComponent<Wall>());
+				break;
+            }
+        }
 	}
 
 	private void Restart() {
 		SceneManager.LoadScene("Main");
 	}
 
-	private void OnDisable() {
-		GameManager.instance.playerFoodPoints = food;
-	}
-
 	private void CheckIfGameOver() {
-		if (food <= 0) {
+		if (Food <= 0) {
 			loseSound.Play();
 			GameManager.instance.GameOver();
 		}
 	}
-
 }

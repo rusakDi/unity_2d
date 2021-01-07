@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 834818356314690749}
   - component: {fileID: 7501871097670694091}
   - component: {fileID: -8357499108147413019}
+  - component: {fileID: 5804494060611637088}
   m_Layer: 8
   m_Name: InnerWall
-  m_TagString: Untagged
+  m_TagString: InWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,7 +44,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.0012189895, y: -0.0071538985}
@@ -125,3 +126,24 @@ MonoBehaviour:
   dmgSprite: {fileID: -4751902496367685551, guid: 23dc5b29b38d0e345a158b09ac6a4730,
     type: 3}
   hp: 4
+--- !u!50 &5804494060611637088
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8797136689250409893}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

@@ -9,13 +9,12 @@ public class ContinueButton : MonoBehaviour {
     public GameObject pausePanel;
     
     void Start() {
-        continueButton = GetComponent <Button> ();
-        continueButton.onClick.AddListener (Quit);
+        continueButton = GetComponent<Button>();
+        continueButton.onClick.AddListener(Quit);
     }
 
     void Quit() {
-        GetComponent <AudioSource>().Play ();
-        Time.timeScale = 1;
+        GetComponent<AudioSource>().Play();
         pausePanel.SetActive(false);
     }
 }
