@@ -46,7 +46,7 @@ public class Enemy : MovingObject {
 		hitPlayer.LoseFood(playerDamage);
 	}
 
-	public void MoveEnemy(float deltaTime) {
+	public void MoveEnemy(float deltaTime, bool enemyDir) {
 		float xDir = 0;
 		float yDir = 0;
 		var dist = Vector3.Distance(target.position, transform.position);
@@ -57,9 +57,14 @@ public class Enemy : MovingObject {
             } else {
 				direction /= deltaTime * speenP;
             }
-			xDir = direction.x;
-			yDir = direction.y;
-		} 
+			if (!enemyDir) {
+				xDir = direction.x;
+				yDir = direction.y;
+			}else {
+				xDir = -1 * direction.x;
+				yDir = -1 * direction.y;
+			}
+		}
 		AttemptMove <Player>(xDir, yDir, deltaTime);
 	}
 }

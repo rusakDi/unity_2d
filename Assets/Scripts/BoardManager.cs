@@ -16,11 +16,12 @@ public class BoardManager : MonoBehaviour {
 		}
 	}
 
-	public int columns = 15;
-	public int rows = 15;
+	public int columns = 100;
+	public int rows = 100;
 	public Count foodCount = new Count(1, 5);
-	public Count wallCount = new Count(2, 3);
+	public Count wallCount = new Count(2, 7);
 	public GameObject exit;
+	public GameObject puddle;
 	public GameObject[] floorTiles;
 	public GameObject[] foodTiles;
 	public GameObject[] outerWallTiles;
@@ -62,7 +63,7 @@ public class BoardManager : MonoBehaviour {
 					toInstantiate = outerWallTiles[0];
 				}
 				else {
-					toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
+					toInstantiate = floorTiles[0];
 				}
 				GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
 				instance.transform.SetParent(boardHolder);
@@ -91,8 +92,14 @@ public class BoardManager : MonoBehaviour {
 		InitializeList();
 		LayoutObjectAtRandom(wallTiles, wallCount.minimum, wallCount.maximum);
 		LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
-		int enemyCount = (int)Mathf.Log(level, 2f);
+		int enemyCount = (int)Mathf.Log(level*12, 2f)*5;
 		LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
-		Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
+		int exitX = Random.Range(5, columns - 2);
+		int exitY = Random.Range(5, rows - 2);
+		Instantiate(exit, new Vector3(exitX, exitY, 0f), Quaternion.identity);
+		int countPuddle = Random.Range(5, (int) rows/8);
+		for (int i = 0; i < countPuddle; i++){
+			Instantiate(puddle, new Vector3(Random.Range(5, columns - 2), Random.Range(5, rows - 2), 0f), Quaternion.identity);
+		}
 	}
 }

@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Soda
   - InWall
+  - Puddle
   layers:
   - Default
   - TransparentFX

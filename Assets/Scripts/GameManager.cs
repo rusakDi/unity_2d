@@ -10,7 +10,8 @@ using Random = UnityEngine.Random;
 public class GameManager : MonoBehaviour { 
 	public static GameManager instance = null;
 	public BoardManager boardScript;
-
+	public bool wt = true;
+	public int countSteps = 0;
     [SerializeField]
 	[HideInInspector]
 	private bool playersTurn = true;
@@ -79,6 +80,8 @@ public class GameManager : MonoBehaviour {
 
 	public void RestartLevel() {
 		level = 0;
+		countSteps = 0;
+		wt = true;
 		PlayersTurn = true;
 		SceneManager.LoadScene("Main");
 		var corutin = HideLevelImage();
@@ -89,12 +92,28 @@ public class GameManager : MonoBehaviour {
         if (doingSetup) {
             return;
         }
-		MoveEnemies(Time.deltaTime);
+		if (wt) {
+			MoveEnemies(Time.deltaTime, false);
+        }
+        else
+        {
+			if (countSteps < 200) {
+				MoveEnemies(Time.deltaTime, true);
+				countSteps++;
+            }
+            else {
+				wt = true;
+			}
+			
+		}
+		
 	}
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode) {
 		Level++;
+		countSteps = 100;
 		InitGame();
+		wt = true;
 	}
 
 	void OnEnable() {
@@ -105,10 +124,11 @@ public class GameManager : MonoBehaviour {
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
 
-    void MoveEnemies(float deltaTime) {
+    public void MoveEnemies(float deltaTime, bool enemyDir) {
 		enemiesMoving = true;
+		wt = false;
 		for (int i = 0; i < enemies.Count; i++) {
-			enemies[i].MoveEnemy(deltaTime);
+			enemies[i].MoveEnemy(deltaTime, enemyDir);
 		}
 		enemiesMoving = false;
 		PlayersTurn = true;

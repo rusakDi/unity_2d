@@ -506,6 +506,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4079568947916286169, guid: a87f42a5a3dae41419e74b7f2cabd4b2,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4284389408692074076, guid: a87f42a5a3dae41419e74b7f2cabd4b2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -611,10 +616,20 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7750664219897320624, guid: a87f42a5a3dae41419e74b7f2cabd4b2,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8083704511698961063, guid: a87f42a5a3dae41419e74b7f2cabd4b2,
         type: 3}
       propertyPath: m_Name
       value: PauseMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8083704511698961063, guid: a87f42a5a3dae41419e74b7f2cabd4b2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a87f42a5a3dae41419e74b7f2cabd4b2, type: 3}
@@ -748,6 +763,11 @@ PrefabInstance:
       propertyPath: loseSound
       value: 
       objectReference: {fileID: 141462750}
+    - target: {fileID: 1250826745252332852, guid: 3760656f9f9951f4ead5f91ce5a1087b,
+        type: 3}
+      propertyPath: speenP
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1250826745252332853, guid: 3760656f9f9951f4ead5f91ce5a1087b,
         type: 3}
       propertyPath: m_LocalPosition.x

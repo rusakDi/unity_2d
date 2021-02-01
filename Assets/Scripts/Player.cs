@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Player : MovingObject {
 	public int wallDamage = 1;
 	public int pointsPerSoda = 20;
-	public float restartLevelDelay = 1f;
+	public float restartLevelDelay = 0.5f;
 	public Text foodText;
 	private const int playerFoodPoints = 10000;
 	private Animator animator;
@@ -90,10 +90,19 @@ public class Player : MovingObject {
 				OnAttack(other.transform.GetComponent<Wall>());
 				break;
             }
+			case "Puddle": {
+				GameManager.instance.countSteps = 0;
+				GameManager.instance.wt = true;
+				GameManager.instance.MoveEnemies(Time.deltaTime, true);
+				other.gameObject.SetActive(false);
+				break;
+            }
         }
 	}
 
 	private void Restart() {
+		GameManager.instance.countSteps = 0;
+		GameManager.instance.wt = true;
 		SceneManager.LoadScene("Main");
 	}
 
